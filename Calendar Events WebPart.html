@@ -1,0 +1,73 @@
+<html>
+//Calendar Event webpart to display all upcomming events in an  organization in sharepoint using RESTFULL API by Rajesh Kadari.
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+#tab td{   
+    border:1px solid ##22bac9;
+    margin: 0;
+	}
+
+#left{
+	margin: 0;
+	text-align:center !important;
+}
+
+#tab td p{
+	margin: 0;
+	text-align:left;
+}
+#mnth{
+	background-color: #22bac9;
+	color: #fff;
+	text-align:center !important;
+}
+</style>
+</head>
+<body>
+<h2><b>Events</b></h2>
+<script>
+$(document).ready(function(){
+ RestCall();
+});
+function RestCall()
+	{
+		//query the calendar list using REST API
+	var d = new Date();
+    var n = d.toISOString();
+	 $.ajax({
+         //order by date and set the filter to get only events greater then or equal then todays date(future events) and top limits the no of items to display.
+        url:"https://xyz.sharepoint.com/_api/lists/getbytitle('upcomming events')/items?$top=4&$filter=(StartDate ge '" + n + "')",
+		method: "GET",
+        headers: { "Accept": "application/json; odata=verbose" },
+        success: function (data) {
+		
+			for(i=0;i<data.d.results.length;i++)
+			{
+				var loc=data.d.results[i].Location;
+				var des=data.d.results[i].Desc;
+				var title=data.d.results[i].Title;
+				var dt=new Date(data.d.results[i].StartDate);//dd-mm-yyyyT00:00:00Z format
+				var d=dt.toDateString().slice(0, 3);
+				var m=dt.toDateString().slice(4, 7);
+				var day=dt.toDateString().slice(8, 10);
+				//dynamic html tag  for each event.
+				var tr="<tr><td style='width: 40px;border:1px solid #ddd'><p id='mnth'>"+m+"</p><p id='left'>"+day+"</p><p id='left'>"+d+"</p> </td> <td style='padding-left: 10px;'><p><b>Agenda:</b>"+title+"</p><p><b>Desc:</b>"+des+"</p><p><b>Location:</b>"+loc+"</p> </td></tr><hr>";
+				$("#tab").append(tr);
+				
+			}
+            
+        },
+        error: function (data) {
+           
+        }
+    });
+	}
+	
+</script>
+<table id ="tab">
+//dynamic tr and td tag for each event.
+</table>
+<a href='https://xyz.sharepoint.com/Pages/testing-page.aspx',target='blank'>View All Events</a>
+</body>
+</html>
