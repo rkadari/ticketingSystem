@@ -1,0 +1,10 @@
+Calendar events web part using REST API .
+
+Create a calendar list in sharepoint and qurey the list using REST API get operation.
+
+Displays only future events .Can set limit using $top and $orderBy by Event Date , $filter by Current date.
+
+Dyanmically bind the html tag to table and add css.
+
+Thanks
+Rajesh.
