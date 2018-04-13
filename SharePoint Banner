@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type='text/javascript' language='javascript'>
+var classname="";var Stat="";var msg="";var Status="";var htmls="";var title="";
+$(document).ready(function () {
+    getItems();
+});
+function getItems() {
+    $.ajax({
+        url: "http://samplesite/_api/web/lists/getbytitle('Status List')/items?",
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose",
+        },
+        success: function (data) {
+            console.log(data.d.results);
+			Status=data.d.results[0].Status;
+			if(Status =="Migration Completed")
+			{
+			classname="alert alert-success alert-dismissible";
+			Stat="Sucess :";
+			msg="Site Migration Completed";
+			title=data.d.results[0].Title;
+			htmls="<div class='alert alert-success alert-dismissible'>"+
+						"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+						+"<strong> " +Stat+ "</strong>"+ msg+" "+"<strong>"+"SiteName:"+"</strong> "+ title+
+						"<a href='mailto:rajesh.kadari@gmail.com?cc=naga.pyneni@gmail.com&bcc=kaushik.bukka@gmail.com&subject="+ title+"&body="+ msg+"' >"+" "+"<strong>"+"Contact Site Owner"+"</strong>"+"</a>"+
+					 "</div>";
+			}
+			else if(Status =="Migration Planning")
+			{
+			classname="alert alert-info alert-dismissible";
+			Stat="Info :";
+			msg="Site Migration Planning";title=data.d.results[0].Title;
+			htmls="<div class='alert alert-info alert-dismissible'>"+
+						"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+						+"<strong> " +Stat+ "</strong>"+msg+" "+"<strong>"+"SiteName:"+"</strong> "+ title+
+						"<a href='mailto:rajesh.kadari@gmail.com?cc=naga.pyneni@gmail.com&bcc=kaushik.bukka@gmail.com&subject="+ title+"&body="+ msg+"' >"+" "+"<strong>"+"Contact Site Owner"+"</strong>"+"</a>"+
+					 "</div>";
+			}
+			else if(Status =="Migrating In Process")
+			{
+			classname="alert alert-warning alert-dismissible";
+			Stat="Warning :";
+			msg="Site Migration In Process";title=data.d.results[0].Title;
+			htmls="<div class='alert alert-warning alert-dismissible'>"+
+						"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+						+"<strong> " +Stat+ "</strong>"+msg+" "+"<strong>"+"SiteName:"+"</strong> "+ title+
+						"<a href='mailto:rajesh.kadari@gmail.com?cc=naga.pyneni@gmail.com&bcc=kaushik.bukka@gmail.com&subject="+ title+"&body="+ msg+"'>"+ " " +"<strong>"+"Contact Site Owner"+"</strong>"+"</a>"+
+					 "</div>";
+			}
+			$('.container').html(htmls);
+        },
+        error: function (error) {
+            alert(JSON.stringify(error));
+        }
+    });
+}
+</script>
+</head>
+<body>
+
+<div class="container">
+    
+  </div>
+
+</body>
+
+
+</html>
+
